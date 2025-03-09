@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-
-# Medical-chatbot-using-Llama2
-
-=======
-
 # Medical-chatbot-using-Llama2
 
 ## Steps to run the project
