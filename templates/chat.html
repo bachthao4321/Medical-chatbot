@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Chatbot - Brave Coder</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="title">Simple Chatbot</div>
+        <div class="box">
+            <div class="item">
+                <div class="icon">
+                    <img src="{{ url_for('static', filename='images/doctor.png') }}" alt="User Icon">
+                </div>
+                <div class="msg">
+                    <p>Xin chào, tôi có thể giúp gì được cho bạn?</p>
+                </div>
+            </div>
+            <br clear="both">
+        </div>
+        
+        <div class="typing-area">
+            <div class="input-field">
+                <input type="text" id="user-input" placeholder="Type your message" required>
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thêm script trước </body> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#send-btn").click(function() {
+                var userMessage = $("#user-input").val().trim();
+                if (userMessage === "") return;
+
+                $(".box").append('<div class="item right"><div class="msg"><p>' + userMessage + '</p></div></div><br clear="both">');
+
+                $.ajax({
+                    url: "/chat",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ message: userMessage }),
+                    success: function(response) {
+                        $(".box").append('<div class="item"><div class="icon"><img src="{{ url_for("static", filename="images/doctor.png") }}" alt="User Icon"></div><div class="msg"><p>' + response.response + '</p></div></div><br clear="both">');
+
+                        $(".user-img").css({
+    "width": "40px",
+    "height": "40px",
+    "border-radius": "50%",
+    "object-fit": "cover"
+});
+                    }
+                });
+
+                $("#user-input").val(""); // Xóa input sau khi gửi
+            });
+
+            // Bắt sự kiện Enter để gửi tin nhắn
+            $("#user-input").keypress(function(event) {
+                if (event.which == 13) { // 13 là mã phím Enter
+                    $("#send-btn").click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
