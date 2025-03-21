@@ -1,4 +1,4 @@
-# Medical-chatbot-using-Llama2
+# Medical-chatbot-using-Llama3
 
 ## Steps to run the project
 
